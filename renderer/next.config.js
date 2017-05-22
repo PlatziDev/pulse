@@ -17,7 +17,6 @@ module.exports = {
   exportPathMap() {
     return {
       '/': { page: '/' },
-      '/editor': { page: '/editor' },
     }
   },
   assetPrefix: './',

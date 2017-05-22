@@ -1,16 +1,18 @@
-const { app, BrowserWindow, ipcMain, dialog, protocol } = require('electron')
+const { app, BrowserWindow } = require('electron')
 const { resolve } = require('app-root-path')
 const dev = require('electron-is-dev')
-const fs = require('fs')
 
-const server = require('./server')
+const startServer = require('./server')
+const setMenu = require('./menu')
+const setIPCEvents = require('./ipc-events')
 
 let win
 
 async function createWindow() {
+  let server
   try {
     // when starting the window run the server
-    await server()
+    server = await startServer()
   } catch (error) {
     console.error(error)
     app.exit(error)
@@ -44,7 +46,11 @@ async function createWindow() {
 
   win.on('close', () => {
     win = null
+    if (server) server.close()
   })
+
+  setIPCEvents()
+  setMenu()
 
   // TODO: implement a way to get the Markdown data
   // protocol.registerHttpProtocol('pulse', (request, callback) => {
@@ -70,51 +76,4 @@ app.on('activate', () => {
 app.on('open-url', (event, string) => {
   event.preventDefault()
   fs.writeFileSync('~/test', 'utf8', string)
-})
-
-ipcMain.on('open-file', event => {
-  const files = dialog.showOpenDialog({
-    defaultPath: app.getPath('documents'),
-    filters: [{ name: 'Markdown', extensions: ['md'] }],
-    properties: ['openFile'],
-  })
-
-  if (!files || files.length === 0) return
-
-  const fileName = files[0]
-
-  if (
-    !(fileName.lastIndexOf('.md') !== -1 && fileName.length - 3 === fileName.lastIndexOf('.md'))
-  ) {
-    return dialog.showErrorBox('Invalid file type', 'It must be a Markdown (.md) file')
-  }
-
-  fs.readFile(fileName, 'utf8', (error, content) => {
-    if (error) return dialog.showErrorBox(error.message, error.stack)
-    event.sender.send('file-opened', fileName, content)
-  })
-})
-
-ipcMain.on('save-file', (event, content, _fileName) => {
-  console.log(_fileName);
-  let fileName =
-    _fileName ||
-    dialog.showSaveDialog({
-      defaultPath: app.getPath('documents'),
-      filters: [{ name: 'Markdown', extensions: ['md'] }, { name: 'All Files', extensions: ['*'] }],
-      showsTagField: false,
-    })
-
-  if (!fileName) return
-
-  if (
-    !(fileName.lastIndexOf('.md') !== -1 && fileName.length - 3 === fileName.lastIndexOf('.md'))
-  ) {
-    fileName = fileName + '.md'
-  }
-
-  fs.writeFile(fileName, content, { encoding: 'utf8' }, error => {
-    if (error) return dialog.showErrorBox(error.message, error.stack)
-    event.sender.send('file-saved', fileName)
-  })
 })

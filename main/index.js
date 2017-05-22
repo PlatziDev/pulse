@@ -6,10 +6,12 @@ const startServer = require('./server')
 const setMenu = require('./menu')
 const setIPCEvents = require('./ipc-events')
 
-let win
+const windows = []
 
 async function createWindow() {
+  let win
   let server
+
   try {
     // when starting the window run the server
     server = await startServer()
@@ -32,6 +34,8 @@ async function createWindow() {
     },
   })
 
+  windows.push(win)
+
   // open our server URL or the build directory in production
   win.loadURL(dev ? 'http://localhost:8000' : `file://${resolve('./build')}/index.html`)
 
@@ -46,6 +50,8 @@ async function createWindow() {
 
   win.on('close', () => {
     win = null
+    const position = windows.indexOf(win)
+    windows.splice(position, 1)
     if (server) server.close()
   })
 
@@ -68,7 +74,7 @@ app.on('window-all-closed', () => {
 })
 
 app.on('activate', () => {
-  if (win === null) {
+  if (windows.length === 0) {
     createWindow()
   }
 })

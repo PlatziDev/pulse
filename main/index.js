@@ -26,6 +26,7 @@ async function createWindow() {
     show: false,
     webPreferences: {
       devTools: dev,
+      textAreasAreResizable: false,
     },
   })
 

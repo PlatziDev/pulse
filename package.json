@@ -5,7 +5,7 @@
   "description": "A Platzi Flavored Markdown editor",
   "main": "main/index.js",
   "repository": "PlatziDev/pulse",
-  "author": "Sergio Daniel Xalambrí <sergiodxa@gmail.com>",
+  "author": "Platzi Team <dev@platzi.com>",
   "license": "MIT",
   "scripts": {
     "start": "electron main",
@@ -45,7 +45,6 @@
         "role": "Editor"
       }
     ],
-    "compression": "maximum",
     "files": [
       "main",
       "node_modules",

@@ -19,7 +19,7 @@ export default class extends Document {
           />
           <style>{`body { margin: 0;font-family: sans-serif; }`}</style>
         </Head>
-        <body className="custom_class">
+        <body>
           {this.props.customValue}
           <Main />
           <NextScript />

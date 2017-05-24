@@ -3,8 +3,7 @@ import { Base } from 'pulse-editor/buttons'
 import { ipcRenderer } from 'electron'
 import { string, func, bool } from 'prop-types'
 import isMac from 'pulse-editor/built/utils/is-mac'
-
-import Icon from './icon'
+import Icon from 'react-icons/lib/fa/floppy-o'
 
 export default class SaveButton extends Component {
   static contextTypes = {
@@ -48,8 +47,8 @@ export default class SaveButton extends Component {
 
   render = () => (
     <Base onClick={this.handleClick} name="save">
-      <span>
-        <Icon name="floppy-o" title="Save file [CMD+S]" /> Save file
+      <span title="Save file [CMD+S]">
+        <Icon /> Save file
       </span>
     </Base>
   )

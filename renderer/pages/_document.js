@@ -13,10 +13,6 @@ export default class extends Document {
       <html>
         <Head>
           <title>Pulse</title>
-          <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
-          />
           <style>{`body { margin: 0;font-family: sans-serif; user-select: none; }`}</style>
         </Head>
         <body>

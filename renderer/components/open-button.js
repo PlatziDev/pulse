@@ -3,8 +3,7 @@ import { Base } from 'pulse-editor/buttons'
 import { ipcRenderer } from 'electron'
 import { string, func } from 'prop-types'
 import isMac from 'pulse-editor/built/utils/is-mac'
-
-import Icon from './icon'
+import Icon from 'react-icons/lib/fa/folder-open-o'
 
 export default class OpenButton extends Component {
   static contextTypes = {
@@ -46,8 +45,8 @@ export default class OpenButton extends Component {
 
   render = () => (
     <Base onClick={this.handleClick} name="open">
-      <span>
-        <Icon name="folder-open-o" title="Open file [CMD+O]" /> Open file
+      <span title="Open file [CMD+O]">
+        <Icon /> Open file
       </span>
     </Base>
   )

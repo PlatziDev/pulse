@@ -2,8 +2,7 @@ import { Component } from 'react'
 import { Base } from 'pulse-editor/buttons'
 import { string, func } from 'prop-types'
 import isMac from 'pulse-editor/built/utils/is-mac'
-
-import Icon from './icon'
+import Icon from 'react-icons/lib/fa/file-o'
 
 export default class NewButton extends Component {
   static contextTypes = {
@@ -41,8 +40,8 @@ export default class NewButton extends Component {
 
   render = () => (
     <Base onClick={this.handleClick} name="new">
-      <span>
-        <Icon name="file-o" title="New file [CMD+N]" /> New file
+      <span title="New file [CMD+N]">
+        <Icon /> New file
       </span>
     </Base>
   )

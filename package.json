@@ -58,7 +58,8 @@
     "prop-types": "^15.5.10",
     "pulse-editor": "^1.0.0",
     "react": "^15.5.4",
-    "react-dom": "^15.5.4"
+    "react-dom": "^15.5.4",
+    "react-icons": "^2.2.5"
   },
   "devDependencies": {
     "babili-webpack-plugin": "^0.0.11",

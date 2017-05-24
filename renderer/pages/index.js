@@ -19,7 +19,18 @@ import {
 import Save from '../components/save-button'
 import Open from '../components/open-button'
 import New from '../components/new-button'
-import Icon from '../components/icon'
+
+import BoldIcon from 'react-icons/lib/fa/bold'
+import ItalicIcon from 'react-icons/lib/fa/italic'
+import UnderlineIcon from 'react-icons/lib/fa/underline'
+import CodeIcon from 'react-icons/lib/fa/code'
+import LinkIcon from 'react-icons/lib/fa/external-link'
+import ImageIcon from 'react-icons/lib/fa/image'
+import OLIcon from 'react-icons/lib/fa/list-ol'
+import ULIcon from 'react-icons/lib/fa/list-ul'
+import QuoteIcon from 'react-icons/lib/fa/quote-left'
+import HeadingIcon from 'react-icons/lib/fa/header'
+import YoutubeIcon from 'react-icons/lib/fa/youtube-play'
 
 const mockFn = () => {}
 
@@ -74,37 +85,51 @@ export default class extends Component {
         <ButtonBar>
           <ButtonGroup>
             <Bold>
-              <Icon name="bold" title="Bold [CMD+B]" />
+              <span title="Bold [CMD+B]"><BoldIcon /></span>
             </Bold>
             <Italic>
-              <Icon name="italic" title="Italic [CMD+I]" />
+              <span title="Italic [CMD+I]">
+                <ItalicIcon />
+              </span>
             </Italic>
             <Underline>
-              <Icon name="underline" title="Underline [CMD+U]" />
+              <span title="Underline [CMD+U]">
+                <UnderlineIcon />
+              </span>
             </Underline>
             <Code>
-              <span title="Insert code"><Icon name="code" /> Insert code</span>
+              <span title="Insert code"><CodeIcon /> Insert code</span>
             </Code>
             <Link>
-              <span title="Insert link [CDM+K]"><Icon name="link" /> Link</span>
+              <span title="Insert link [CDM+K]"><LinkIcon /> Link</span>
             </Link>
             <Image>
-              <span title="Insert image"><Icon name="image" /> Image</span>
+              <span title="Insert image"><ImageIcon /> Image</span>
             </Image>
             <OrderedList>
-              <Icon name="list-ol" title="Ordered list" />
+              <span title="Ordered List">
+                <OLIcon />
+              </span>
             </OrderedList>
             <UnorderedList>
-              <Icon name="list" title="Unordered list [CMD+L]" />
+              <span title="Unordered list [CMD+L]">
+                <ULIcon />
+              </span>
             </UnorderedList>
             <Quote>
-              <Icon name="quote-left" title="Quote [CMD+Q]" />
+              <span title="Quote [CMD+Q]">
+                <QuoteIcon />
+              </span>
             </Quote>
             <Heading>
-              <Icon name="header" title="Heading [CMD+H]" />
+              <span title="Heading [CMD+H]">
+                <HeadingIcon />
+              </span>
             </Heading>
             <Youtube>
-              <Icon name="youtube-play" title="Youtube video" />
+              <span title="Youtube video">
+                <YoutubeIcon />
+              </span>
             </Youtube>
           </ButtonGroup>
 

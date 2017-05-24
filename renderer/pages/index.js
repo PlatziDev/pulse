@@ -1,5 +1,5 @@
 import { Component } from 'react'
-import { ipcRenderer } from 'electron'
+import { ipcRenderer, shell } from 'electron'
 import { string, func, bool } from 'prop-types'
 import { Editor, ButtonGroup, ButtonBar, Field, Preview, EmojiBar } from 'pulse-editor'
 import {
@@ -40,9 +40,25 @@ export default class extends Component {
     }
   }
 
+  componentDidMount() {
+    this.$preview = document.querySelector('.PulseEditor-preview')
+    this.$preview.addEventListener('click', this.handlePreviewLinkClick)
+  }
+
+  componentWillUnmount() {
+    this.$preview.removeEventListener('click', this.handlePreviewLinkClick)
+  }
+
   setFileName = fileName => this.setState({ fileName })
 
   handleDrop = event => event.preventDefault()
+
+  handlePreviewLinkClick = event => {
+    if (event.target.nodeName === 'A') {
+      event.preventDefault()
+      shell.openExternal(event.target.getAttribute('href'))
+    }
+  }
 
   setRef = editor => {
     this.editor = editor

@@ -312,6 +312,9 @@ export default class extends Component {
           .PulseEditor-preview figure {
             text-align: center;
           }
+          .PulseEditor-preview img {
+            max-width: 100%;
+          }
           .PulseEditor-preview ul,
           .PulseEditor-preview ol,
           .PulseEditor-preview dd {

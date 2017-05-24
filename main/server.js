@@ -1,6 +1,5 @@
 const { app } = require('electron')
 const { createServer } = require('http')
-const next = require('next')
 
 const dev = require('electron-is-dev')
 

@@ -6,7 +6,7 @@ module.exports = () => {
     const files = dialog.showOpenDialog({
       defaultPath: app.getPath('documents'),
       filters: [{ name: 'Markdown', extensions: ['md'] }],
-      properties: ['openFile'],
+      properties: ['openFile']
     })
 
     if (!files || files.length === 0) return
@@ -31,7 +31,7 @@ module.exports = () => {
       dialog.showSaveDialog({
         defaultPath: app.getPath('documents'),
         filters: [{ name: 'Markdown', extensions: ['md'] }, { name: 'All Files', extensions: ['*'] }],
-        showsTagField: false,
+        showsTagField: false
       })
 
     if (!fileName) return

@@ -1,6 +1,6 @@
 import { Component } from 'react'
-import { ipcRenderer, shell } from 'electron'
-import { string, func, bool } from 'prop-types'
+import { shell } from 'electron'
+import { string, func } from 'prop-types'
 import { Editor, ButtonGroup, ButtonBar, Field, Preview, EmojiBar } from 'pulse-editor'
 import {
   Bold,
@@ -13,7 +13,7 @@ import {
   UnorderedList,
   Quote,
   Heading,
-  Youtube,
+  Youtube
 } from 'pulse-editor/buttons'
 
 import Save from '../components/save-button'
@@ -32,31 +32,29 @@ import QuoteIcon from 'react-icons/lib/fa/quote-left'
 import HeadingIcon from 'react-icons/lib/fa/header'
 import YoutubeIcon from 'react-icons/lib/fa/youtube-play'
 
-const mockFn = () => {}
-
 export default class extends Component {
   static childContextTypes = {
     fileName: string,
-    setFileName: func.isRequired,
+    setFileName: func.isRequired
   }
 
   state = {
-    fileName: undefined,
+    fileName: undefined
   }
 
-  getChildContext() {
+  getChildContext () {
     return {
       fileName: this.state.fileName,
-      setFileName: this.setFileName,
+      setFileName: this.setFileName
     }
   }
 
-  componentDidMount() {
+  componentDidMount () {
     this.$preview = document.querySelector('.PulseEditor-preview')
     this.$preview.addEventListener('click', this.handlePreviewLinkClick)
   }
 
-  componentWillUnmount() {
+  componentWillUnmount () {
     this.$preview.removeEventListener('click', this.handlePreviewLinkClick)
   }
 
@@ -75,59 +73,59 @@ export default class extends Component {
     this.editor = editor
   }
 
-  render() {
+  render () {
     return (
       <Editor
         editorRef={this.setRef}
         onDrop={this.handleDrop}
-        name="main-editor"
+        name='main-editor'
       >
         <ButtonBar>
           <ButtonGroup>
             <Bold>
-              <span title="Bold [CMD+B]"><BoldIcon /></span>
+              <span title='Bold [CMD+B]'><BoldIcon /></span>
             </Bold>
             <Italic>
-              <span title="Italic [CMD+I]">
+              <span title='Italic [CMD+I]'>
                 <ItalicIcon />
               </span>
             </Italic>
             <Underline>
-              <span title="Underline [CMD+U]">
+              <span title='Underline [CMD+U]'>
                 <UnderlineIcon />
               </span>
             </Underline>
             <Code>
-              <span title="Insert code"><CodeIcon /> Insert code</span>
+              <span title='Insert code'><CodeIcon /> Insert code</span>
             </Code>
             <Link>
-              <span title="Insert link [CDM+K]"><LinkIcon /> Link</span>
+              <span title='Insert link [CDM+K]'><LinkIcon /> Link</span>
             </Link>
             <Image>
-              <span title="Insert image"><ImageIcon /> Image</span>
+              <span title='Insert image'><ImageIcon /> Image</span>
             </Image>
             <OrderedList>
-              <span title="Ordered List">
+              <span title='Ordered List'>
                 <OLIcon />
               </span>
             </OrderedList>
             <UnorderedList>
-              <span title="Unordered list [CMD+L]">
+              <span title='Unordered list [CMD+L]'>
                 <ULIcon />
               </span>
             </UnorderedList>
             <Quote>
-              <span title="Quote [CMD+Q]">
+              <span title='Quote [CMD+Q]'>
                 <QuoteIcon />
               </span>
             </Quote>
             <Heading>
-              <span title="Heading [CMD+H]">
+              <span title='Heading [CMD+H]'>
                 <HeadingIcon />
               </span>
             </Heading>
             <Youtube>
-              <span title="Youtube video">
+              <span title='Youtube video'>
                 <YoutubeIcon />
               </span>
             </Youtube>
@@ -140,7 +138,7 @@ export default class extends Component {
           </ButtonGroup>
         </ButtonBar>
 
-        <div className="PulseEditor-content">
+        <div className='PulseEditor-content'>
           <Field />
           <Preview />
         </div>

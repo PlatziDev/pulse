@@ -1,7 +1,7 @@
 import { Component } from 'react'
 import { Base } from 'pulse-editor/buttons'
 import { ipcRenderer } from 'electron'
-import { string, func } from 'prop-types'
+import { func } from 'prop-types'
 import isMac from 'pulse-editor/built/utils/is-mac'
 import Icon from 'react-icons/lib/fa/folder-open-o'
 
@@ -10,10 +10,10 @@ export default class OpenButton extends Component {
     setShortcut: func.isRequired,
     removeShortcut: func.isRequired,
     writeValue: func.isRequired,
-    setFileName: func.isRequired,
+    setFileName: func.isRequired
   }
 
-  componentDidMount() {
+  componentDidMount () {
     ipcRenderer.on('file-opened', this.handleOpen)
     this.context.setShortcut({
       ctrlKey: !isMac(),
@@ -25,11 +25,11 @@ export default class OpenButton extends Component {
       handler: event => {
         this.openFile()
         return event.selection
-      },
+      }
     })
   }
 
-  componentWillUnmount() {
+  componentWillUnmount () {
     this.context.removeShortcut({ keyName: 'o' })
     ipcRenderer.removeListener('file-opened', this.handleOpen)
   }
@@ -44,8 +44,8 @@ export default class OpenButton extends Component {
   }
 
   render = () => (
-    <Base onClick={this.handleClick} name="open">
-      <span title="Open file [CMD+O]">
+    <Base onClick={this.handleClick} name='open'>
+      <span title='Open file [CMD+O]'>
         <Icon /> Open file
       </span>
     </Base>

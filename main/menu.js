@@ -1,5 +1,4 @@
 const { app, Menu, shell } = require('electron')
-const dev = require('electron-is-dev')
 
 const template = [
   {
@@ -13,8 +12,8 @@ const template = [
       { role: 'paste' },
       { role: 'pasteandmatchstyle' },
       { role: 'delete' },
-      { role: 'selectall' },
-    ],
+      { role: 'selectall' }
+    ]
   },
   {
     label: 'View',
@@ -26,22 +25,22 @@ const template = [
       { role: 'zoomin' },
       { role: 'zoomout' },
       { type: 'separator' },
-      { role: 'togglefullscreen' },
-    ],
+      { role: 'togglefullscreen' }
+    ]
   },
   {
     role: 'window',
-    submenu: [{ role: 'minimize' }, { role: 'close' }],
+    submenu: [{ role: 'minimize' }, { role: 'close' }]
   },
   {
     role: 'help',
     submenu: [
       {
         label: 'Learn More',
-        click: () => shell.openExternal('https://platzi.com'),
-      },
-    ],
-  },
+        click: () => shell.openExternal('https://platzi.com')
+      }
+    ]
+  }
 ]
 
 if (process.platform === 'darwin') {
@@ -56,8 +55,8 @@ if (process.platform === 'darwin') {
       { role: 'hideothers' },
       { role: 'unhide' },
       { type: 'separator' },
-      { role: 'quit' },
-    ],
+      { role: 'quit' }
+    ]
   })
 
   // Edit menu
@@ -65,7 +64,7 @@ if (process.platform === 'darwin') {
     { type: 'separator' },
     {
       label: 'Speech',
-      submenu: [{ role: 'startspeaking' }, { role: 'stopspeaking' }],
+      submenu: [{ role: 'startspeaking' }, { role: 'stopspeaking' }]
     }
   )
 
@@ -75,7 +74,7 @@ if (process.platform === 'darwin') {
     { role: 'minimize' },
     { role: 'zoom' },
     { type: 'separator' },
-    { role: 'front' },
+    { role: 'front' }
   ]
 }
 

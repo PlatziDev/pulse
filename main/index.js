@@ -8,7 +8,7 @@ const setIPCEvents = require('./ipc-events')
 
 const windows = []
 
-async function createWindow() {
+async function createWindow () {
   let win
   let server
 
@@ -30,8 +30,8 @@ async function createWindow() {
     show: false,
     webPreferences: {
       devTools: dev,
-      textAreasAreResizable: false,
-    },
+      textAreasAreResizable: false
+    }
   })
 
   windows.push(win)
@@ -77,9 +77,4 @@ app.on('activate', () => {
   if (windows.length === 0) {
     createWindow()
   }
-})
-
-app.on('open-url', (event, string) => {
-  event.preventDefault()
-  fs.writeFileSync('~/test', 'utf8', string)
 })

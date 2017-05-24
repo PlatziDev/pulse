@@ -1,6 +1,6 @@
 import { Component } from 'react'
 import { Base } from 'pulse-editor/buttons'
-import { string, func } from 'prop-types'
+import { func } from 'prop-types'
 import isMac from 'pulse-editor/built/utils/is-mac'
 import Icon from 'react-icons/lib/fa/file-o'
 
@@ -9,10 +9,10 @@ export default class NewButton extends Component {
     setShortcut: func.isRequired,
     setFileName: func.isRequired,
     removeShortcut: func.isRequired,
-    writeValue: func.isRequired,
+    writeValue: func.isRequired
   }
 
-  componentDidMount() {
+  componentDidMount () {
     this.context.setShortcut({
       ctrlKey: !isMac(),
       metaKey: isMac(),
@@ -23,11 +23,11 @@ export default class NewButton extends Component {
       handler: event => {
         this.createFile()
         return event.selection
-      },
+      }
     })
   }
 
-  componentWillUnmount() {
+  componentWillUnmount () {
     this.context.removeShortcut({ keyName: 'o' })
   }
 
@@ -39,8 +39,8 @@ export default class NewButton extends Component {
   handleClick = () => this.createFile()
 
   render = () => (
-    <Base onClick={this.handleClick} name="new">
-      <span title="New file [CMD+N]">
+    <Base onClick={this.handleClick} name='new'>
+      <span title='New file [CMD+N]'>
         <Icon /> New file
       </span>
     </Base>

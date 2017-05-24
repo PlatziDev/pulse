@@ -1,7 +1,7 @@
 const BabiliPlugin = require('babili-webpack-plugin')
 
 module.exports = {
-  webpack(config, { dev }) {
+  webpack (config, { dev }) {
     config.target = 'electron-renderer'
 
     config.plugins = config.plugins.filter(plugin => {
@@ -14,10 +14,10 @@ module.exports = {
 
     return config
   },
-  exportPathMap() {
+  exportPathMap () {
     return {
-      '/': { page: '/' },
+      '/': { page: '/' }
     }
   },
-  assetPrefix: './',
+  assetPrefix: './'
 }

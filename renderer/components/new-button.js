@@ -1,5 +1,6 @@
 import { Component } from 'react'
 import { Base } from 'pulse-editor/buttons'
+import { ipcRenderer } from 'electron'
 import { func } from 'prop-types'
 import isMac from 'pulse-editor/built/utils/is-mac'
 import Icon from 'react-icons/lib/fa/file-o'
@@ -13,6 +14,7 @@ export default class NewButton extends Component {
   }
 
   componentDidMount () {
+    ipcRenderer.on('new-file', this.createFile)
     this.context.setShortcut({
       ctrlKey: !isMac(),
       metaKey: isMac(),
@@ -28,6 +30,7 @@ export default class NewButton extends Component {
   }
 
   componentWillUnmount () {
+    ipcRenderer.removeListener('new-file', this.createFile)
     this.context.removeShortcut({ keyName: 'o' })
   }
 

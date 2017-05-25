@@ -6,6 +6,15 @@ const template = [
     label: 'File',
     submenu: [
       {
+        label: 'New file',
+        click () {
+          const webContent = webContents.getFocusedWebContents()
+          if (webContent) {
+            webContent.send('new-file')
+          }
+        }
+      },
+      {
         label: 'Open...',
         click () {
           const webContent = webContents.getFocusedWebContents()

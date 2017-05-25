@@ -1,5 +1,6 @@
 const { app, ipcMain, dialog } = require('electron')
 const fs = require('fs')
+const exportedStyles = require('./exported-styles')
 
 module.exports = () => {
   ipcMain.on('open-file', event => {
@@ -30,7 +31,10 @@ module.exports = () => {
       _fileName ||
       dialog.showSaveDialog({
         defaultPath: app.getPath('documents'),
-        filters: [{ name: 'Markdown', extensions: ['md'] }, { name: 'All Files', extensions: ['*'] }],
+        filters: [
+          { name: 'Markdown', extensions: ['md'] },
+          { name: 'All Files', extensions: ['*'] }
+        ],
         showsTagField: false
       })
 
@@ -45,6 +49,40 @@ module.exports = () => {
     fs.writeFile(fileName, content, { encoding: 'utf8' }, error => {
       if (error) return dialog.showErrorBox(error.message, error.stack)
       event.sender.send('file-saved', fileName)
+    })
+  })
+
+  ipcMain.on('export-file', (event, content) => {
+    let fileName = dialog.showSaveDialog({
+      defaultPath: app.getPath('documents'),
+      filters: [
+        { name: 'Markdown', extensions: ['html'] },
+        { name: 'All Files', extensions: ['*'] }
+      ],
+      showsTagField: false
+    })
+
+    if (!fileName) return
+
+    if (
+      !(fileName.lastIndexOf('.html') !== -1 &&
+        fileName.length - 3 === fileName.lastIndexOf('.html'))
+    ) {
+      fileName = fileName + '.html'
+    }
+
+    const finalContent = `
+      <html>
+        <style>${exportedStyles}</style>
+        <body>
+          ${content}
+        </body>
+      </html>
+    `
+
+    fs.writeFile(fileName, finalContent, { encoding: 'utf8' }, error => {
+      if (error) return dialog.showErrorBox(error.message, error.stack)
+      event.sender.send('file-exported', fileName)
     })
   })
 }

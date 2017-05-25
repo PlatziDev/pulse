@@ -26,6 +26,8 @@ async function createWindow () {
     backgroundColor: '#058ecd',
     height: 768,
     width: 1024,
+    minHeight: 768,
+    minWidth: 1024,
     center: true,
     show: false,
     webPreferences: {

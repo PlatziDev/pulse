@@ -19,6 +19,7 @@ import {
 import Save from '../components/save-button'
 import Open from '../components/open-button'
 import New from '../components/new-button'
+import Export from '../components/export-button'
 
 import BoldIcon from 'react-icons/lib/fa/bold'
 import ItalicIcon from 'react-icons/lib/fa/italic'
@@ -150,6 +151,7 @@ export default class extends Component {
             <New />
             <Open />
             <Save />
+            <Export />
           </ButtonGroup>
         </ButtonBar>
 

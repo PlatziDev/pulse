@@ -1,6 +1,21 @@
-const { app, Menu, shell } = require('electron')
+const { app, Menu, shell, webContents } = require('electron')
+const openFile = require('./actions/open-file')
 
 const template = [
+  {
+    label: 'File',
+    submenu: [
+      {
+        label: 'Open...',
+        click () {
+          const webContent = webContents.getFocusedWebContents()
+          if (webContent) {
+            openFile(webContent.send.bind(webContent, 'file-opened'))
+          }
+        }
+      }
+    ]
+  },
   {
     label: 'Edit',
     submenu: [

@@ -36,7 +36,9 @@ export default class SaveButton extends Component {
   }
 
   saveFile = () => {
-    ipcRenderer.send('save-file', this.context.value, this.context.fileName)
+    if (this.context.value !== '') {
+      ipcRenderer.send('save-file', this.context.value, this.context.fileName)
+    }
   }
 
   handleClick = () => this.saveFile()

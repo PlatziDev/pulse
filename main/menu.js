@@ -7,6 +7,7 @@ const template = [
     submenu: [
       {
         label: 'New file',
+        accelerator: 'CmdOrCtrl+N',
         click () {
           const webContent = webContents.getFocusedWebContents()
           if (webContent) {
@@ -16,6 +17,7 @@ const template = [
       },
       {
         label: 'Open...',
+        accelerator: 'CmdOrCtrl+O',
         click () {
           const webContent = webContents.getFocusedWebContents()
           if (webContent) {

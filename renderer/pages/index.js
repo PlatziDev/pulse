@@ -1,5 +1,5 @@
 import { Component } from 'react'
-import { shell } from 'electron'
+import { ipcRenderer, shell } from 'electron'
 import { string, func } from 'prop-types'
 import { Editor, ButtonGroup, ButtonBar, Field, Preview, EmojiBar } from 'pulse-editor'
 import {
@@ -60,7 +60,21 @@ export default class extends Component {
 
   setFileName = fileName => this.setState({ fileName })
 
+  save = content => {
+    clearTimeout(this.timer)
+    this.timer = setTimeout(
+      () => ipcRenderer.send('save-file', content, this.state.fileName),
+      300
+    )
+  }
+
   handleDrop = event => event.preventDefault()
+
+  handleChange= event => {
+    if (event.markdown && this.state.fileName) {
+      this.save(event.markdown)
+    }
+  }
 
   handlePreviewLinkClick = event => {
     if (event.target.nodeName === 'A') {
@@ -78,6 +92,7 @@ export default class extends Component {
       <Editor
         editorRef={this.setRef}
         onDrop={this.handleDrop}
+        onChange={this.handleChange}
         name='main-editor'
       >
         <ButtonBar>

@@ -15,6 +15,7 @@ import {
   Heading,
   Youtube
 } from 'pulse-editor/buttons'
+import highlight from 'highlight.js'
 
 import Save from '../components/save-button'
 import Open from '../components/open-button'
@@ -157,7 +158,16 @@ export default class extends Component {
 
         <div className='PulseEditor-content'>
           <Field />
-          <Preview />
+          <Preview
+            parser={{
+              highlight(code, lang) {
+                if (lang && highlight.getLanguage(lang)) {
+                  return highlight.highlight(lang, code).value;
+                }
+                return highlight.highlightAuto(code).value;
+              }
+            }}
+          />
         </div>
 
         <EmojiBar />
@@ -458,6 +468,66 @@ export default class extends Component {
           .PulseEditor-preview mark {
             background-color: #058ecd;
             color: #fff;
+          }
+          .hljs {
+            display: block;
+            overflow-x: auto;
+            padding: 0.5em;
+            background: #272822;
+            color: #ddd
+          }
+          .hljs-tag,
+          .hljs-keyword,
+          .hljs-selector-tag,
+          .hljs-literal,
+          .hljs-strong,
+          .hljs-name {
+            color: #f92672
+          }
+          .hljs-code {
+            color: #66d9ef
+          }
+          .hljs-class .hljs-title {
+            color: white
+          }
+          .hljs-attribute,
+          .hljs-symbol,
+          .hljs-regexp,
+          .hljs-link {
+            color: #bf79db
+          }
+          .hljs-string,
+          .hljs-bullet,
+          .hljs-subst,
+          .hljs-title,
+          .hljs-section,
+          .hljs-emphasis,
+          .hljs-type,
+          .hljs-built_in,
+          .hljs-builtin-name,
+          .hljs-selector-attr,
+          .hljs-selector-pseudo,
+          .hljs-addition,
+          .hljs-variable,
+          .hljs-template-tag,
+          .hljs-template-variable {
+            color: #a6e22e
+          }
+          .hljs-comment,
+          .hljs-quote,
+          .hljs-deletion,
+          .hljs-meta {
+            color: #75715e
+          }
+          .hljs-keyword,
+          .hljs-selector-tag,
+          .hljs-literal,
+          .hljs-doctag,
+          .hljs-title,
+          .hljs-section,
+          .hljs-type,
+          .hljs-selector-id {
+            font-weight: bold
           }
         `}</style>
       </Editor>

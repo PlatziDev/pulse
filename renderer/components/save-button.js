@@ -16,6 +16,7 @@ export default class SaveButton extends Component {
 
   componentDidMount () {
     ipcRenderer.on('file-saved', this.handleSaved)
+    ipcRenderer.on('trying-to-save', this.handleTryingToSave)
     this.context.setShortcut({
       ctrlKey: !isMac(),
       metaKey: isMac(),
@@ -32,6 +33,7 @@ export default class SaveButton extends Component {
 
   componentWillUnmount () {
     ipcRenderer.removeListener('file-saved', this.handleSaved)
+    ipcRenderer.removeListener('trying-to-save', this.handleTryingToSave)
     this.context.removeShortcut({ keyName: 's' })
   }
 
@@ -45,6 +47,10 @@ export default class SaveButton extends Component {
 
   handleSaved = (event, fileName) => {
     this.context.setFileName(fileName)
+  }
+
+  handleTryingToSave = event => {
+    event.sender.send('content-to-save', this.context.value, this.context.fileName)
   }
 
   render = () => (

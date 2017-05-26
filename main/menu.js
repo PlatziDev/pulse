@@ -1,5 +1,6 @@
-const { app, Menu, shell, webContents } = require('electron')
+const { app, Menu, shell, webContents, ipcMain } = require('electron')
 const openFile = require('./actions/open-file')
+const saveFile = require('./actions/save-file')
 
 const template = [
   {
@@ -22,6 +23,19 @@ const template = [
           const webContent = webContents.getFocusedWebContents()
           if (webContent) {
             openFile(webContent.send.bind(webContent, 'file-opened'))
+          }
+        }
+      },
+      {
+        label: 'Save file',
+        accelerator: 'CmdOrCtrl+S',
+        click() {
+          const webContent = webContents.getFocusedWebContents()
+          if (webContent) {
+            webContent.send('trying-to-save')
+            ipcMain.once('content-to-save', (event, content, fileName) => {
+              saveFile(content, fileName, webContent.send.bind(webContent, 'file-saved'))
+            })
           }
         }
       }

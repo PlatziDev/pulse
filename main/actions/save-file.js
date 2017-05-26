@@ -1,7 +1,7 @@
 const { app, dialog } = require('electron')
 const { writeFile } = require('fs')
 
-const saveFile = (content, _fileName = '', callback = () => {}) => {
+const saveFile = (content, _fileName, callback = () => {}) => {
   if (!content) throw new ReferenceError('The content is required.')
 
   let fileName =

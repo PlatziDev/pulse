@@ -17,6 +17,16 @@ const template = [
         }
       },
       {
+        label: 'New window',
+        accelerator: 'CmdOrCtrl+Alt+N',
+        click () {
+          const webContent = webContents.getFocusedWebContents()
+          if (webContent) {
+            webContent.send('shortcut-press')
+          }
+        }
+      },
+      {
         label: 'Open...',
         accelerator: 'CmdOrCtrl+O',
         click () {
@@ -29,7 +39,7 @@ const template = [
       {
         label: 'Save file',
         accelerator: 'CmdOrCtrl+S',
-        click() {
+        click () {
           const webContent = webContents.getFocusedWebContents()
           if (webContent) {
             webContent.send('trying-to-save')

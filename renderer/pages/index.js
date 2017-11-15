@@ -21,6 +21,7 @@ import Save from '../components/save-button'
 import Open from '../components/open-button'
 import New from '../components/new-button'
 import Export from '../components/export-button'
+import Create from '../components/window-button'
 
 import BoldIcon from 'react-icons/lib/fa/bold'
 import ItalicIcon from 'react-icons/lib/fa/italic'
@@ -149,6 +150,7 @@ export default class extends Component {
           </ButtonGroup>
 
           <ButtonGroup>
+            <Create />
             <New />
             <Open />
             <Save />

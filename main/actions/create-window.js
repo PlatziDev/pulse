@@ -3,7 +3,6 @@ const { resolve } = require('app-root-path')
 const dev = require('electron-is-dev')
 
 const setMenu = require('../menu')
-const setIPCEvents = require('../ipc-events')
 
 async function createWindow (_windows) {
   // after the server starts create the electron browser window
@@ -39,7 +38,6 @@ async function createWindow (_windows) {
     _windows.delete(id)
   })
 
-  setIPCEvents()
   setMenu()
 
   // TODO: implement a way to get the Markdown data

@@ -2,6 +2,7 @@ const WindowManager = require('./window-manager')
 const { app } = require('electron')
 const dev = require('electron-is-dev')
 const startServer = require('./server')
+const setIPCEvents = require('./ipc-events')
 
 class Main {
   constructor () {
@@ -30,8 +31,9 @@ class Main {
 }
 const main = new Main()
 
-app.on('ready', () => {
+app.once('ready', () => {
   main.onReady()
+  setIPCEvents()
 })
 
 app.on('window-all-closed', () => {

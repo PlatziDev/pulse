@@ -1,17 +1,42 @@
+const WindowManager = require('./window-manager')
 const { app } = require('electron')
+const dev = require('electron-is-dev')
+const startServer = require('./server')
 
-const createWindow = require('./create-window')
+class Main {
+  constructor () {
+    this.server = null
+    this._windowManager = new WindowManager()
+  }
+  get windowManager () {
+    return this._windowManager
+  }
 
-app.on('ready', createWindow)
+  async onReady () {
+    if (dev) {
+      try {
+        this.server = await startServer()
+      } catch (error) {
+        console.error(error)
+        app.exit(error)
+      }
+    }
+    this._windowManager.createNewWindow()
+  }
+
+  onWindowAllClosed () {
+    app.quit()
+  }
+}
+const main = new Main()
+
+app.on('ready', () => {
+  main.onReady()
+})
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
-    app.quit()
+    main.onWindowAllClosed()
   }
-})
-
-app.on('activate', () => {
-  if (!global.win) {
-    createWindow()
-  }
+  if (this.server) this.server.close()
 })

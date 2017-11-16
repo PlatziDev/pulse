@@ -22,6 +22,7 @@ import Open from '../components/open-button'
 import New from '../components/new-button'
 import Export from '../components/export-button'
 import Create from '../components/window-button'
+import imageDrop from '../components/image-drop'
 
 import BoldIcon from 'react-icons/lib/fa/bold'
 import ItalicIcon from 'react-icons/lib/fa/italic'
@@ -51,12 +52,11 @@ export default class extends Component {
       setFileName: this.setFileName
     }
   }
-
   componentDidMount () {
     this.$preview = document.querySelector('.PulseEditor-preview')
     this.$preview.addEventListener('click', this.handlePreviewLinkClick)
   }
-
+  
   componentWillUnmount () {
     this.$preview.removeEventListener('click', this.handlePreviewLinkClick)
   }
@@ -71,7 +71,7 @@ export default class extends Component {
     )
   }
 
-  handleDrop = event => event.preventDefault()
+  handleDrop = e => imageDrop(e, this)
 
   handleChange= event => {
     if (event.markdown && this.state.fileName) {

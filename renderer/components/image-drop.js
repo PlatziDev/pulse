@@ -1,5 +1,3 @@
-import { remote } from 'electron'
-
 //  validate file format with a list of format supports imgur
 let validateFile = (file) => {
   let imageFormat = ['jpeg', 'png', 'gif', 'peg', 'apng', 'tiff', 'pdf', 'xcf']
@@ -15,7 +13,7 @@ let sendData = (_this, file) => {
   fd.append('image', file)
   let xhttp = new XMLHttpRequest()
   xhttp.open('POST', 'https://api.imgur.com/3/image', true)
-  xhttp.setRequestHeader('Authorization', `Client-ID ${remote.getGlobal('clientId')}`)
+  xhttp.setRequestHeader('Authorization', `Client-ID e3f6a51d5c12580`)
   xhttp.onreadystatechange = function () {
     let response = ''
     let event = {}

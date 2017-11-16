@@ -1,5 +1,7 @@
 const WindowManager = require('./window-manager')
 const { app } = require('electron')
+//  Imgur API needs a clientId
+global.clientId = process.env.IMGUR_CLIENT_ID
 const dev = require('electron-is-dev')
 const startServer = require('./server')
 const setIPCEvents = require('./ipc-events')

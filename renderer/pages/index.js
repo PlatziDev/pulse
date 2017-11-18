@@ -22,7 +22,6 @@ import Open from '../components/open-button'
 import New from '../components/new-button'
 import Export from '../components/export-button'
 import Create from '../components/window-button'
-import imageDrop from '../components/image-drop'
 
 import BoldIcon from 'react-icons/lib/fa/bold'
 import ItalicIcon from 'react-icons/lib/fa/italic'
@@ -71,7 +70,58 @@ export default class extends Component {
     )
   }
 
-  handleDrop = e => imageDrop(e, this)
+  sendImage (file, imageData, defaultMessage) {
+    fetch('https://api.imgur.com/3/image', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Client-ID e3f6a51d5c12580`
+      },
+      body: imageData})
+      .then(response => response.json())
+      .then(success => {
+        const resultMessage = Object.assign(
+          {},
+          defaultMessage,
+          {
+            target: {
+            value:  `${this.editor.domField.value} ![${file.name}](${success.data.link})`}
+          })
+        this.editor.writeValue(resultMessage)
+      })
+      .catch(error => {
+        const errorMessage = Object.assign(
+          {},
+          defaultMessage,
+          {
+            target: {
+            value:  `${this.editor.domField.value} ![A problem when sending the file, please try again.]()`}
+          })
+        this.editor.writeValue(errorMessage)
+      })
+  }
+
+  handleDrop = event => {
+    event.preventDefault()
+    // without 'preventDefault', when you drop the image, change the whole editor view
+    const defaultMessage = {
+      target: {
+        value: `${this.editor.domField.value} ![Problem with the format file](url)`
+      }
+    }
+    const file = event.dataTransfer.files[0]
+    const imageFormat = ['jpeg', 'png', 'gif', 'peg', 'apng', 'tiff', 'pdf', 'xcf']
+    const validFile = imageFormat.filter((format) => {
+      const regExp = new RegExp("\\b(" + format + ")\\b")
+      return regExp.test(file.type)
+    })
+    if (!!validFile && validFile.length !== 0) {
+      const imageData = new FormData()
+      imageData.append('image', file)
+      return this.sendImage(file, imageData, defaultMessage)
+    }
+    // if file format doesn't support by imgur, advice the user
+    return this.editor.writeValue(defaultMessage)
+  }
 
   handleChange= event => {
     if (event.markdown && this.state.fileName) {

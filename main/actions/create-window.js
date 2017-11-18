@@ -1,24 +1,12 @@
-const { app, BrowserWindow } = require('electron')
+const { BrowserWindow } = require('electron')
 const { resolve } = require('app-root-path')
 const dev = require('electron-is-dev')
 
-const startServer = require('./server')
-const setMenu = require('./menu')
-const setIPCEvents = require('./ipc-events')
+const setMenu = require('../menu')
 
-async function createWindow () {
-  let server
-
-  try {
-    // when starting the window run the server
-    server = await startServer()
-  } catch (error) {
-    console.error(error)
-    app.exit(error)
-  }
-
+async function createWindow (_windows) {
   // after the server starts create the electron browser window
-  global.win = new BrowserWindow({
+  let win = new BrowserWindow({
     title: 'Pulse',
     backgroundColor: '#058ecd',
     height: 768,
@@ -32,25 +20,24 @@ async function createWindow () {
       textAreasAreResizable: false
     }
   })
+  const id = win.id
 
   // open our server URL or the build directory in production
-  global.win.loadURL(dev ? 'http://localhost:8000' : `file://${resolve('./build')}/index.html`)
+  win.loadURL(dev ? 'http://localhost:8000' : `file://${resolve('./build')}/index.html`)
 
   // in development open devtools
   if (dev) {
-    global.win.webContents.openDevTools()
+    win.webContents.openDevTools()
   }
 
-  global.win.once('ready-to-show', () => {
-    global.win.show()
+  win.once('ready-to-show', () => {
+    win.show()
   })
 
-  global.win.on('close', () => {
-    global.win = null
-    if (server) server.close()
+  win.on('closed', () => {
+    _windows.delete(id)
   })
 
-  setIPCEvents()
   setMenu()
 
   // TODO: implement a way to get the Markdown data
@@ -58,6 +45,8 @@ async function createWindow () {
   //   const url = request.url.substr(8)
   //   console.log(url)
   // })
+  _windows.set(id, win)
+  return win
 }
 
 module.exports = createWindow

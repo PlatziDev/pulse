@@ -21,6 +21,7 @@ import Save from '../components/save-button'
 import Open from '../components/open-button'
 import New from '../components/new-button'
 import Export from '../components/export-button'
+import Create from '../components/window-button'
 
 import BoldIcon from 'react-icons/lib/fa/bold'
 import ItalicIcon from 'react-icons/lib/fa/italic'
@@ -50,12 +51,11 @@ export default class extends Component {
       setFileName: this.setFileName
     }
   }
-
   componentDidMount () {
     this.$preview = document.querySelector('.PulseEditor-preview')
     this.$preview.addEventListener('click', this.handlePreviewLinkClick)
   }
-
+  
   componentWillUnmount () {
     this.$preview.removeEventListener('click', this.handlePreviewLinkClick)
   }
@@ -70,7 +70,61 @@ export default class extends Component {
     )
   }
 
-  handleDrop = event => event.preventDefault()
+  successMessage (fileName, successData) {
+    const resultMessage = {
+      target: {
+        value: `${this.editor.domField.value} ![${fileName}](${successData.data.link})`
+      }
+    }
+    this.editor.writeValue(resultMessage)
+  }
+
+  async sendImage (file, imageData) {
+    const response = await fetch('https://api.imgur.com/3/image', 
+    {
+      method: 'POST',
+      headers: {
+        'Authorization': `Client-ID e3f6a51d5c12580`
+      },
+      body: imageData}
+    )
+    if (response.ok) {
+      const successData = await response.json()
+      return this.successMessage(file.name, successData)
+    }
+    this.errorMessage()
+  }
+
+  errorMessage () {
+    const errorMessage = {
+      target: {
+        value: `${this.editor.domField.value} ![A problem when sending the file, please try again.]()`
+      }
+    }
+    this.editor.writeValue(errorMessage)
+  }
+  handleDrop = event => {
+    event.preventDefault()
+    // without 'preventDefault', when you drop the image, change the whole editor view
+    const defaultMessage = {
+      target: {
+        value: `${this.editor.domField.value} ![Problem with the format file](url)`
+      }
+    }
+    const file = event.dataTransfer.files[0]
+    const imageFormat = ['jpeg', 'png', 'gif', 'peg', 'apng', 'tiff', 'pdf', 'xcf']
+    const validFile = imageFormat.filter((format) => {
+      const regExp = new RegExp("\\b(" + format + ")\\b")
+      return regExp.test(file.type)
+    })
+    if (!!validFile && validFile.length !== 0) {
+      const imageData = new FormData()
+      imageData.append('image', file)
+      return this.sendImage(file, imageData, defaultMessage)
+    }
+    // if file format doesn't support by imgur, advice the user
+    return this.editor.writeValue(defaultMessage)
+  }
 
   handleChange= event => {
     if (event.markdown && this.state.fileName) {
@@ -149,6 +203,7 @@ export default class extends Component {
           </ButtonGroup>
 
           <ButtonGroup>
+            <Create />
             <New />
             <Open />
             <Save />

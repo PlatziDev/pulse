@@ -70,36 +70,39 @@ export default class extends Component {
     )
   }
 
-  sendImage (file, imageData, defaultMessage) {
-    fetch('https://api.imgur.com/3/image', {
+  successMessage (fileName, successData) {
+    const resultMessage = {
+      target: {
+        value: `${this.editor.domField.value} ![${fileName}](${successData.data.link})`
+      }
+    }
+    this.editor.writeValue(resultMessage)
+  }
+
+  async sendImage (file, imageData) {
+    const response = await fetch('https://api.imgur.com/3/image', 
+    {
       method: 'POST',
       headers: {
         'Authorization': `Client-ID e3f6a51d5c12580`
       },
-      body: imageData})
-      .then(response => response.json())
-      .then(success => {
-        const resultMessage = Object.assign(
-          {},
-          defaultMessage,
-          {
-            target: {
-            value:  `${this.editor.domField.value} ![${file.name}](${success.data.link})`}
-          })
-        this.editor.writeValue(resultMessage)
-      })
-      .catch(error => {
-        const errorMessage = Object.assign(
-          {},
-          defaultMessage,
-          {
-            target: {
-            value:  `${this.editor.domField.value} ![A problem when sending the file, please try again.]()`}
-          })
-        this.editor.writeValue(errorMessage)
-      })
+      body: imageData}
+    )
+    if (response.ok) {
+      const successData = await response.json()
+      return this.successMessage(file.name, successData)
+    }
+    this.errorMessage()
   }
 
+  errorMessage () {
+    const errorMessage = {
+      target: {
+        value: `${this.editor.domField.value} ![A problem when sending the file, please try again.]()`
+      }
+    }
+    this.editor.writeValue(errorMessage)
+  }
   handleDrop = event => {
     event.preventDefault()
     // without 'preventDefault', when you drop the image, change the whole editor view

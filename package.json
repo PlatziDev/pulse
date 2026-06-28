@@ -67,7 +67,7 @@
     "app-root-path": "^2.0.1",
     "electron-is-dev": "^0.1.2",
     "highlight.js": "^9.11.0",
-    "next": "^3.0.0-beta5",
+    "next": "^15.5.18",
     "prop-types": "^15.5.10",
     "pulse-editor": "^1.0.0",
     "react": "^15.5.4",
@@ -77,7 +77,7 @@
   "devDependencies": {
     "babel-eslint": "^7.2.3",
     "babili-webpack-plugin": "^0.0.11",
-    "electron": "^1.6.8",
+    "electron": "^39.8.5",
     "electron-builder": "^17.8.0",
     "lint-staged": "^3.4.2",
     "standard": "^10.0.2"
